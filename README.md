@@ -33,6 +33,8 @@
 
 ## Arquitetura e Engenharia
 
+- [technical/FLOWPAY_MIGRATION_DOSSIER_2026-03-03.md](./technical/FLOWPAY_MIGRATION_DOSSIER_2026-03-03.md)
+- [technical/FLOWPAY_DEPENDENCY_CONTRACT_2026-03-03.md](./technical/FLOWPAY_DEPENDENCY_CONTRACT_2026-03-03.md)
 - [technical/ADR-003-sqlite-persistence.md](./technical/ADR-003-sqlite-persistence.md)
 - [technical/PAYMENT_FLOW.md](./technical/PAYMENT_FLOW.md)
 - [technical/PIX_API_TESTING.md](./technical/PIX_API_TESTING.md)
