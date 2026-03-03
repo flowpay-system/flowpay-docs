@@ -1,9 +1,9 @@
-# 🚀 Guia de Deploy - Railway (DEPRECATED)
+# 🚀 Guia de Deploy Front-end - Railway
 
-> [!CAUTION]
-> **ESTE GUIA ESTÁ DEPRECADO.** 
-> A FlowPay migrou oficialmente para a infraestrutura **Cloudflare (Workers + D1 + Pages)**. 
-> Este documento permanece apenas para registro histórico. 
+> [!NOTE]
+> **COMPATIBILIDADE DE ARQUITETURA HÍBRIDA** 
+> A infraestrutura da FlowPay foi dividida. A **API** migrou para o Cloudflare (Workers + D1), mas o **Front-end Institucional (Marketing)** continua hospedado no **Railway**. 
+> Este guia é **oficial e válido** para o deploy da parte Front-end (repositório `flowpay-marketing`). 
 
 
 Este guia cobre o processo de deploy da aplicação **FlowPay** na plataforma **Railway**.
