@@ -1,4 +1,9 @@
-# 🚀 Guia de Deploy - Railway
+# 🚀 Guia de Deploy - Railway (DEPRECATED)
+
+> [!CAUTION]
+> **ESTE GUIA ESTÁ DEPRECADO.** 
+> A FlowPay migrou oficialmente para a infraestrutura **Cloudflare (Workers + D1 + Pages)**. 
+> Este documento permanece apenas para registro histórico. 
 
 
 Este guia cobre o processo de deploy da aplicação **FlowPay** na plataforma **Railway**.

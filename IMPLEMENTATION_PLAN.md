@@ -1,4 +1,9 @@
-# NEO NEXUS - IMPLEMENTATION PLAN
+# NEO NEXUS - IMPLEMENTATION PLAN (DEPRECATED)
+
+> [!CAUTION]
+> **ESTE PLANO DE IMPLEMENTAÇÃO ESTÁ DEPRECADO.** 
+> A FlowPay migrou oficialmente para a infraestrutura **Cloudflare (Workers + D1 + Pages)**. 
+> Este documento permanece apenas para registro histórico das fases de transição do Railway.
 > **Version:** 1.0.0  
 > **Target:** Standalone Orchestration Service  
 > **Timeline:** 3-5 Days (Developer Time)
