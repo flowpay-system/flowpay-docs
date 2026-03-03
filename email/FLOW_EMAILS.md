@@ -12,7 +12,7 @@ O coração das notificações de e-mail está em `src/services/api/email-servic
 
 - **Provedor Principal**: [Resend](https://resend.com) via API REST (Melhor entrega e monitoramento).
 - **Redundância (SMTP)**: Configurações de SMTP configuradas no `.env` como fallback ou para serviços legados.
-- **Remetente Oficial**: `noreply@send.flowpay.cash` (Subdomínio verificado para proteção de reputação).
+- **Remetente Oficial**: `team@flowpay.cash` (Endereço humanizado para melhor confiança e entregabilidade).
 
 ---
 
@@ -48,7 +48,7 @@ Variáveis necessárias para a operação:
 ```bash
 # Gateway Resend
 RESEND_API_KEY=re_...
-RESEND_FALLBACK_FROM=FlowPay <noreply@flowpay.cash>
+RESEND_FALLBACK_FROM=FlowPay <team@flowpay.cash>
 EMAIL_DOMAIN_CHECK_TTL_MS=600000
 
 # Canal SMTP
@@ -56,7 +56,7 @@ SMTP_HOST=smtp.resend.com
 SMTP_PORT=465
 SMTP_USER=resend
 SMTP_PASS=re_...
-SMTP_FROM=FlowPay <noreply@send.flowpay.cash>
+SMTP_FROM=FlowPay <team@flowpay.cash>
 ```
 
 ---
