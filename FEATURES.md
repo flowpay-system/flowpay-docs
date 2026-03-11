@@ -1,7 +1,9 @@
 # NEO NEXUS - TECHNICAL ARCHITECTURE
-> **Version:** 1.0.0  
-> **Status:** Blueprint (Implementation Pending)  
-> **Architect:** Antigravity AI
+> **Version:** 1.0.0
+> **Status:** LIVE & OPERATIONAL (Mar/2026)
+> **Deployed:** https://nexus.neoprotocol.space
+> **Repository:** NEO-PROTOCOL/neo-nexus (Railway)
+> **Architect:** NEO MELLO / Antigravity AI
 
 ---
 
@@ -79,12 +81,14 @@ The **NEO Nexus** is the central orchestration engine of the NEØ Protocol. It a
 - Implement `Nexus.dispatch(event, payload)` to emit events
 - Implement `Nexus.onEvent(event, handler)` to register reactors
 
-**Current Status:** ✅ Implemented (basic version)
+**Current Status:** Fully Implemented & Production-Ready
 
-**Enhancements Needed:**
-- Persistent event log (SQLite or Redis)
-- Retry mechanism for failed reactions
-- Event replay capability
+**Production Features:**
+- Persistent event log (SQLite)
+- Retry mechanism for failed reactions (`/src/utils/retry-queue.ts`)
+- Event replay via graph discovery (`/src/core/graph.ts`)
+- Secret rotation with grace period (`NEXUS_SECRET_NEW`/`NEXUS_SECRET_OLD`)
+- Metrics & observability (Winston, Discord alerts)
 
 ---
 
@@ -106,7 +110,11 @@ Nexus.onEvent(ProtocolEvent.PAYMENT_RECEIVED, async (payload) => {
 });
 ```
 
-**Location:** `src/reactors/` (to be created)
+**Location:** `/NEO-PROTOCOL/neo-nexus/src/reactors/`
+
+**Live Reactors:**
+- `payment-to-mint.ts`: Emits mint event on payment received
+- `mint-to-notify.ts`: Sends WhatsApp via Neobot on mint confirmed
 
 ---
 
@@ -207,20 +215,24 @@ Nexus.onEvent(ProtocolEvent.PAYMENT_RECEIVED, async (payload) => {
 
 ## 8. SCALABILITY ROADMAP
 
-### Phase 1 (Current): Embedded Nexus
-- Runs inside Neobot process
-- Good for <100 events/day
-
-### Phase 2 (Next): Standalone Service
-- Separate Railway deployment
+### Phase 1 (COMPLETE): Standalone Service
+- Separate Railway deployment (live Mar/2026)
+- Express HTTP + WebSocket + SQLite persistence
 - Good for <10k events/day
 
-### Phase 3 (Future): Distributed Nexus
+### Phase 2 (CURRENT): High-Volume Optimization
+- Event filtering & subscriptions
+- Rate limiting & circuit breakers
+- Good for 10k-100k events/day
+
+### Phase 3 (ROADMAP): Distributed Nexus
 - Redis Pub/Sub for event distribution
 - Multiple Nexus instances (load balanced)
+- Event sharding by domain
 - Good for >100k events/day
 
 ---
 
-**Document Status:** Blueprint Complete  
-**Next Step:** See `IMPLEMENTATION_PLAN.md` for execution roadmap.
+**Document Status:** Architecture Live & Operational
+**Deployment:** Railway (`nexus.neoprotocol.space`)
+**For implementation details:** See `/NEO-PROTOCOL/neo-nexus`

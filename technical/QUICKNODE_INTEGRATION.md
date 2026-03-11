@@ -132,8 +132,8 @@ QUICKNODE_WEBHOOKS_REST=https://api.quicknode.com/webhooks/v1
 # Webhook Security Token (opcional)
 QUICKNODE_WEBHOOK_SECRET=your_secret_token_here
 
-# URL do webhook (Railway)
-URL=https://flowpay.cash
+# URL do webhook (Cloudflare Workers)
+URL=https://api.flowpay.cash
 ```
 
 ---

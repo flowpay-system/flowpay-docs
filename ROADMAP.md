@@ -5,146 +5,160 @@
          F L O W P A Y - ROADMAP
 ========================================
       PROTOCOLO NΞØ - FASES 2 A 12
+      Atualizado: Mar/2026
 ========================================
 ```
 
-## ▓▓▓ FASE 2: BLINDAGEM & HARDENING
+> **Nota de classificação (Mar/2026):**
+> - "Implementado" = em produção no runtime principal (`src/worker.ts`)
+> - "Capacidade latente" = código portado em `services/`, mas NÃO plugado no Worker
+> - "Pendente" = não iniciado
+>
+> A API roda em **Cloudflare Workers** (não Pages). Frontend em **Railway**.
+
+## ▓▓▓ FASE 2: BLINDAGEM & HARDENING -- PARCIAL
 
 ────────────────────────────────────────
 **Objetivo:** Matar o erro do checkout e elevar o padrão de segurança.
 
-- └─ Self-host de libs críticas
-- └─ CSP fechada (nonce/sha256)
-- └─ SRI em assets externos
-- └─ 0 uso de unsafe-eval
+- [x] CSP configurada no marketing
+- [x] HMAC webhook validation (timingSafeEqual)
+- [x] Secret rotation outbound (NEXUS_SECRET_NEW/OLD)
+- [ ] Self-host de libs críticas (parcial)
+- [ ] SRI em assets externos
+- [ ] 0 uso de unsafe-eval (verificar marketing)
 
 **Metas:** Sem bloqueios CSP, TTI < 2s.
-**Prazo:** D+1.
+**Status:** Segurança core implementada. CSP/SRI pendentes no frontend.
 
-## ▓▓▓ FASE 3: CHECKOUT MODULAR
+## ▓▓▓ FASE 3: CHECKOUT MODULAR -- IMPLEMENTADO (core)
 
 ────────────────────────────────────────
 **Objetivo:** Desacoplar meios de pagto.
 
-- └─ Adapter pattern (Pix/Cripto)
-- └─ Interface única PaymentProvider
-- └─ Webhook idempotente c/ retries
-- └─ Verificação de assinaturas
+- [x] Endpoint `/api/create-charge` com Woovi (PIX)
+- [x] Payment Buttons (checkout publico via botoes)
+- [x] Webhook idempotente c/ validacao de assinatura Woovi
+- [x] Service-to-service auth (`X-API-Key` / `FLOWPAY_INTERNAL_API_KEY`)
+- [x] Emissao Nexus (`payment.received`) pos-confirmacao
+- [ ] Adapter pattern formal (Pix/Cripto) -- capacidade latente em `services/crypto/`
+- [ ] Interface unica PaymentProvider -- idem
 
 **Metas:** 99.9% de sucesso no fluxo.
-**Prazo:** D+2 ~ D+3.
+**Status:** PIX operacional em producao. Cripto como capacidade latente.
 
-## ▓▓▓ FASE 4: TRANSPARÊNCIA VIVA
+## ▓▓▓ FASE 4: TRANSPARÊNCIA VIVA -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Confiança por auditoria.
 
-- └─ Log público (redigido) de txs
-- └─ Playground de webhooks
-- └─ Status de serviços & RPCs
-- └─ Latência em real-time
+- [ ] Log público (redigido) de txs
+- [ ] Playground de webhooks
+- [x] Status de serviços (health probe em `/api/webhook/health`)
+- [ ] Latência em real-time
 
 **Metas:** 0 dúvidas de suporte.
-**Prazo:** D+4.
+**Status:** Health probe implementado. Demais itens pendentes.
 
-## ▓▓▓ FASE 5: AUTO-CUSTÓDIA UX
+## ▓▓▓ FASE 5: AUTO-CUSTÓDIA UX -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Usuário é dono da chave.
 
-- └─ Wizard "Sua chave, sua regra"
-- └─ Carteira seed fora do app
-- └─ Copy educativa in-product
-- └─ Bloqueio de capturas/prints
+- [ ] Wizard "Sua chave, sua regra"
+- [ ] Carteira seed fora do app
+- [ ] Copy educativa in-product
+- [ ] Bloqueio de capturas/prints
 
 **Metas:** >70% entendem auto-custódia.
-**Prazo:** D+5.
+**Status:** Não iniciado. Depende de wallet integration (capacidade latente em `services/wallet/`).
 
-## ▓▓▓ FASE 6: SPEC PÚBLICA & OPEN
+## ▓▓▓ FASE 6: SPEC PÚBLICA & OPEN -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Ecossistema replicável.
 
-- └─ SPEC.md (fluxos e eventos)
-- └─ SECURITY.md & CONTRIBUTING.md
-- └─ Licença permissiva (MIT)
-- └─ No keys, no data policy
+- [ ] SPEC.md (fluxos e eventos)
+- [ ] SECURITY.md & CONTRIBUTING.md
+- [ ] Licença permissiva (MIT)
+- [ ] No keys, no data policy
 
 **Metas:** Primeiro PR externo.
-**Prazo:** D+6.
+**Status:** Não iniciado.
 
-## ▓▓▓ FASE 7: RESILIÊNCIA
+## ▓▓▓ FASE 7: RESILIÊNCIA -- PARCIAL (capacidade latente)
 
 ────────────────────────────────────────
 **Objetivo:** Melhora sob stress.
 
-- └─ Fila de reconciliação (jobs)
-- └─ Circuit breaker p/ providers
-- └─ Chaos tests automatizados
-- └─ Fallback Pix/Cripto
+- [ ] Fila de reconciliação (jobs) -- capacidade latente em `services/settlement/`
+- [ ] Circuit breaker p/ providers
+- [ ] Chaos tests automatizados
+- [ ] Fallback Pix/Cripto -- capacidade latente em `services/crypto/`
 
 **Metas:** MTTR < 10min.
-**Prazo:** D+7 ~ D+8.
+**Status:** Código de settlement e crypto portado mas NÃO integrado ao Worker.
 
-## ▓▓▓ FASE 8: PERF & CUSTOS
+## ▓▓▓ FASE 8: PERF & CUSTOS -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Rápido e barato.
 
-- └─ Edge cache & bundle splitting
-- └─ Métrica de custo por tx
-- └─ Alertas de custos anômalos
+- [x] Edge runtime (Cloudflare Workers — latência <50ms)
+- [ ] Bundle splitting (frontend)
+- [ ] Métrica de custo por tx
+- [ ] Alertas de custos anômalos
 
 **Metas:** p95 < 2.5s.
-**Prazo:** D+9.
+**Status:** Edge runtime já entrega latência excelente. Métricas pendentes.
 
-## ▓▓▓ FASE 9: DEVEX & SDKS
+## ▓▓▓ FASE 9: DEVEX & SDKS -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Integração em minutos.
 
-- └─ SDK JS (@flowpay/sdk)
-- └─ Exemplos Next.js & Vanilla
-- └─ CLI: flowpay init/verify
+- [ ] SDK JS (@flowpay/sdk)
+- [ ] Exemplos Next.js & Vanilla
+- [ ] CLI: flowpay init/verify
 
 **Metas:** Tempo integração < 30min.
-**Prazo:** D+10 ~ D+12.
+**Status:** Não iniciado.
 
-## ▓▓▓ FASE 10: LANÇAMENTO NΞØ
+## ▓▓▓ FASE 10: LANÇAMENTO NΞØ -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Protocolo, não produto.
 
-- └─ VSL curta (60-90s)
-- └─ Página Manifesto
-- └─ Post técnico "Start Here"
+- [ ] VSL curta (60-90s)
+- [x] Página Marketing (flowpay.cash)
+- [ ] Post técnico "Start Here"
 
 **Metas:** 1º cohort de integração.
-**Prazo:** D+13 ~ D+14.
+**Status:** Site marketing ativo. Conteúdo técnico pendente.
 
-## ▓▓▓ FASE 11: GOVERNANÇA MÍNIMA
+## ▓▓▓ FASE 11: GOVERNANÇA MÍNIMA -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Decisões transparentes.
 
-- └─ RFCs leves via issues
-- └─ Roadmap público (Kanban)
-- └─ Policy de divulgação coordenada
+- [ ] RFCs leves via issues
+- [ ] Roadmap público (Kanban)
+- [ ] Policy de divulgação coordenada
 
 **Metas:** Time de review < 72h.
-**Prazo:** D+15.
+**Status:** Não iniciado.
 
-## ▓▓▓ FASE 12: EXPANSÕES
+## ▓▓▓ FASE 12: EXPANSÕES -- PENDENTE
 
 ────────────────────────────────────────
 **Objetivo:** Satélites, não monólitos.
 
-- └─ Novos On-ramps & Stablecoins
-- └─ Plugins No-code (Embeds)
-- └─ Badge de verificação cripto
+- [ ] Novos On-ramps & Stablecoins -- capacidade latente em `services/crypto/`
+- [ ] Plugins No-code (Embeds)
+- [ ] Badge de verificação cripto
 
 **Metas:** Adoção cross-stack.
-**Prazo:** Contínuo.
+**Status:** Código de conversão cripto portado mas NÃO integrado.
 
 ## ▓▓▓ NΞØ MELLØ
 

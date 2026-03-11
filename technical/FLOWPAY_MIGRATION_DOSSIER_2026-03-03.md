@@ -15,7 +15,7 @@ O que muda no jogo:
 ## 2) Topologia atual
 ### Domínios
 - `flowpay.cash`: marketing institucional (Astro).
-- `app.flowpay.cash`: aplicação transacional (repositório `flowpay-app`, ainda em bootstrap).
+- `app.flowpay.cash`: aplicação transacional (repositório `flowpay-app`, operacional Mar/2026 -- Vue 3 PWA no Railway).
 - `api.flowpay.cash`: API edge (Cloudflare Worker `flowpay-api`).
 
 ### Infra API

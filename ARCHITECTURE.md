@@ -8,7 +8,7 @@ Este documento descreve a topologia atual da infraestrutura FlowPay, que opera e
 | :--- | :--- | :--- | :--- | :--- |
 | `flowpay.cash` | **Railway** | `flowpay-marketing` | Astro (SSR), Node.js | Front-end Público, Landing page, Institucional, Fluxo básico de Auth UI |
 | `api.flowpay.cash` | **Cloudflare** | `flowpay-api` | Cloudflare Workers, D1 | Back-end API edge principal, Autenticação, Banco de Dados, Webhooks |
-| `app.flowpay.cash` | *(A confirmar)* | `flowpay-app` | Vue / React (PWA) | Aplicação interna/Dashboard do usuário |
+| `app.flowpay.cash` | **Railway** | `flowpay-app` | Vue 3 (PWA, Vite) | Dashboard do usuário, Checkout, Carteira |
 
 ---
 
@@ -23,12 +23,51 @@ Este documento descreve a topologia atual da infraestrutura FlowPay, que opera e
 ### 2. Back-end (API Edge & Autenticação)
 - **Local:** Cloudflare Workers (`wrangler.toml` vive no repositório `flowpay-api`)
 - **Database:** Cloudflare D1 (`flowpay_api_prod`)
-- **Motivo:** A API foi extraída do monolito para rodar 100% na "Edge network" da Cloudflare. Isso provê latência global quase zera, enorme segurança e escala automática infinita.
+- **Motivo:** A API migrou para edge para rodar 100% em Cloudflare Workers (foi extraída do monolito inicial). Isso provê latência global quase zero, enorme segurança e escala automática infinita.
 - **Responsabilidades:**
   - Emissão de magic-links por email (usando Resend via remetente `team@flowpay.cash`).
-  - Sessões seguras e validações SIWE (Sign in with Ethereum).
+  - Sessões seguras via cookie cross-subdomain (`credentials: include`).
   - Recepção de Webhook da Woovi e processamentos de Pix.
   - Endpoints administrativos e criação de cobranças.
+  - Autenticação service-to-service via `X-API-Key` (`FLOWPAY_INTERNAL_API_KEY`).
+  - Emissão de eventos para NEO Nexus (`payment.received`, `user.registration_pending`).
+  - Suporte a rotação de secrets para assinatura outbound.
+  - Endpoints públicos de checkout via Payment Buttons.
+
+### 3. Front-end Operacional (User Dashboard & PWA)
+- **Local:** Railway (`server.mjs` + `dist/` em `flowpay-app`)
+- **Runtime:** Node.js (build estático Vite com server de healthcheck próprio)
+- **Framework:** Vue 3 com Vue Router (PWA-enabled)
+- **Rotas operacionais:** `/login`, `/auth/verify`, `/dashboard`, `/checkout/:buttonId`
+- **Comunicação:** Consume `https://api.flowpay.cash` com `credentials: include` (cookie cross-subdomain)
+- **Motivo:** Dashboard transacional requer state reativo em tempo real, cache PWA para modo offline, e deploy ágil.
+- **CI/CD:** Automático do GitHub para o Railway (ao dar push na branch `main`).
+- **Status:** Operacional (Mar/2026)
+
+---
+
+## 🔗 Integração com NEO Nexus (Event Orchestration)
+
+A arquitetura implementa um fluxo de eventos descentralizados:
+
+1. **Payment Received Flow:**
+   - FlowPay (Cloudflare) recebe webhook de confirmação da Woovi
+   - FlowPay valida assinatura HMAC Woovi
+   - FlowPay emite evento para NEO Nexus via `sendNexusWebhook()`
+   - Header: `X-Nexus-Signature` (HMAC-SHA256 com NEXUS_SECRET)
+
+2. **Nexus Processing:**
+   - Nexus valida signature do FlowPay
+   - Nexus dispara reactores registrados (ex: payment-to-mint)
+   - Reactores chamam serviços externos (Smart Factory para mint)
+
+3. **Result Notification:**
+   - Smart Factory retorna via webhook para Nexus
+   - Nexus dispara mint-to-notify reactor
+   - Neobot recebe evento via WebSocket e notifica usuário
+
+**Deployment:** Railway (`nexus.neoprotocol.space`)
+**Security:** HMAC-SHA256 com secret rotation (`NEXUS_SECRET_NEW`/`NEXUS_SECRET_OLD`)
 
 ---
 

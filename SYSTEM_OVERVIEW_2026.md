@@ -3,8 +3,8 @@
 ========================================
      FLOWPay - SYSTEM OVERVIEW
 ========================================
-Audit Phase: JAN/2026
-Status: SECURE & STABLE
+Audit Phase: MAR/2026 (atualizado)
+Status: SECURE & OPERATIONAL
 ========================================
 ```
 
@@ -12,15 +12,23 @@ Este documento detalha o ecossistema
 FLOWPay, auditoria de segurança e
 o roadmap de evolução técnica.
 
+▓▓▓ TOPOLOGIA ATUAL
+────────────────────────────────────────
+- flowpay.cash .......... Marketing (Railway/Astro)
+- app.flowpay.cash ...... Dashboard/Checkout (Railway/Vue 3)
+- api.flowpay.cash ...... API Edge (Cloudflare Workers + D1)
+
 ▓▓▓ ARQUITETURA & FLOW
 ────────────────────────────────────────
 O FLOWPay atua como bridge entre
 BRL (PIX) e ativos digitais (USDT).
 
 └─ Money Flow:
-   └─ Frontend (Astro) coleta wallet
-   └─ Woovi gera cobrança PIX
+   └─ Marketing (Astro) redireciona para App
+   └─ App (Vue 3) coleta wallet e dados
+   └─ API Edge cria cobrança via Woovi
    └─ Webhook confirma recebimento
+   └─ Nexus orquestra eventos (payment.received)
    └─ Liquidação assistida (USDT)
    └─ Execução On-chain via Viem
 
@@ -50,24 +58,37 @@ REVISÃO TÉCNICA
 [####] Webhook Security ........... OK
 [####] USDT Transfer .............. OK
 [####] Logs & Debug ............... OK
+[####] Cloudflare D1 Database ..... OK
+[####] App Transacional (Vue 3) ... OK
+[####] Nexus Event Emission ....... OK
+[####] Service-to-Service Auth .... OK
+[####] Secret Rotation ............ OK
 
-▓▓▓ TECH DEBT & FAILURES
+▓▓▓ INFRAESTRUTURA PERSISTENTE (LIVE)
+────────────────────────────────────────
+[####] Cloudflare D1 Database ........ OK
+       (ciclo de vida de ordens, sessões, botões)
+[####] App.flowpay.cash (Railway) .... OK
+       (Vue 3 PWA, Dashboard operacional)
+[####] Nexus Event Integration ....... OK
+       (payment.received emitido para orquestração)
+
+▓▓▓ TECH DEBT & GAPS
 ────────────────────────────────────────
 └─ O que falta:
-   └─ Banco de Dados (PostgreSQL)
-      Ciclo de vida de ordens.
-   └─ Admin Dashboard
-      Interface de aprovação.
-   └─ Liquidity API
-      Taxas em tempo real.
-   └─ Retry System
-      Fila de retentativas.
-   └─ Liquidity Monitor
-      Alertas de saldo baixo.
+   └─ Admin Dashboard UI
+      Endpoints /api/admin/* existem, sem interface web.
+   └─ Liquidity API (Real-time)
+      Taxas dinâmicas por rota (custo fixo por tx implementado).
+   └─ Liquidity Monitor & Alerts
+      Alertas automatizados de saldo baixo (manual por hora).
+   └─ Services Latentes
+      blockchain/, crypto/, settlement/, wallet/, monitor/
+      existem em código mas NÃO estão integrados ao Worker.
 
-REXOMENDAÇÃO: O sistema é estável p/
-transações baixas (manual). Escala
-exige Persistência e Dashboard.
+RECOMENDAÇÃO: O sistema é estável e pronto para
+produção com PIX/Cripto. Escala contínua exige
+Dashboard Admin UI e alertas automatizados.
 
 ▓▓▓ NΞØ MELLØ
 ────────────────────────────────────────

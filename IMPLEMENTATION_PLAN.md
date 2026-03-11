@@ -1,12 +1,18 @@
 # NEO NEXUS - IMPLEMENTATION PLAN (DEPRECATED)
 
 > [!CAUTION]
-> **ESTE PLANO DE IMPLEMENTAÇÃO DE BACK-END ESTÁ DEPRECADO.** 
-> A infraestrutura de back-end/API da FlowPay migrou para o **Cloudflare (Workers + D1)**. 
-> Este documento permanece apenas para registro histórico das fases quando usávamos o Railway integralmente para as APIs.
-> **Version:** 1.0.0  
-> **Target:** Standalone Orchestration Service  
-> **Timeline:** 3-5 Days (Developer Time)
+> **STATUS:** This document is **DEPRECATED** for FlowPay backend implementation.
+>
+> **Current Architecture (Mar/2026):**
+> - FlowPay API: **Cloudflare Workers + D1** (`api.flowpay.cash`)
+> - FlowPay Marketing: **Railway + Astro** (`flowpay.cash`)
+> - FlowPay App: **Railway + Vue 3 PWA** (`app.flowpay.cash`)
+> - NEO Nexus: **Railway + Express** (`nexus.neoprotocol.space`) -- LIVE
+>
+> **Historical Value:** This document describes the initial Railway-based architecture
+> used when all FlowPay APIs ran on a single platform. Preserved for reference.
+>
+> **For Current Implementation:** See `/NEO-PROTOCOL/neo-nexus` for active Nexus code.
 
 ---
 
