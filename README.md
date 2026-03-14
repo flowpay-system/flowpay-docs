@@ -4,6 +4,7 @@
 
 ## Estratégia e Produto
 
+- [PÚBLICO: API Documentation Index](./public-api/README.md)
 - [MARKETING_STRATEGY.md](./MARKETING_STRATEGY.md)
 - [MANIFESTO.md](./MANIFESTO.md)
 - [ROADMAP.md](./ROADMAP.md)
