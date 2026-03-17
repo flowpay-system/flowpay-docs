@@ -70,7 +70,9 @@ Description : what done looks like (acceptance criteria, not tasks)
 
 Documents that served as planning references but are no longer the active source-of-truth must:
 
-1. Carry the `⚠️ CONTEXTO HISTÓRICO` banner at the top of the file.
+1. Carry a historical banner at the top of the file:
+   - `⚠️ CONTEXTO HISTÓRICO` for historical docs that remain in the active repo root (e.g. `ROADMAP.md`).
+   - `⚠️ ARQUIVO HISTÓRICO` for documents under the `archive/` directory.
 2. Link to this `PROJECT_CONVENTIONS.md` and the live board.
 3. Remain read-only in the repository (no further updates to content).
 4. **Not** be deleted — they serve as a traceable record of past decisions.
