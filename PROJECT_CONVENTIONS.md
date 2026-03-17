@@ -2,7 +2,7 @@
 
 > **Canonical execution surface:** [GitHub Project Board](https://github.com/orgs/flowpay-system/projects/1)
 >
-> This document defines conventions for managing the live backlog, milestone language, item lifecycle, and the separation between active work and historical documentation.
+> This document defines conventions for managing the live backlog, status vocabulary, item lifecycle, and the separation between active work and historical documentation.
 
 ---
 
@@ -23,7 +23,7 @@
 
 ---
 
-## Milestone Language
+## Status Vocabulary
 
 All items on the board must use consistent status labels:
 
