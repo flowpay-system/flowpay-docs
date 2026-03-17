@@ -62,7 +62,7 @@ Description : what done looks like (acceptance criteria, not tasks)
 
 - New issues are created directly on GitHub Issues and linked to the board on triage.
 - Triage happens at the start of each sprint (weekly, every Monday).
-- Items in `todo` with no owner after two sprints are moved to `backlog` (a secondary pool) and re-evaluated quarterly.
+- Items in `todo` with no owner after two sprints are moved to the `Backlog` column (still status=`todo`) as a secondary pool and re-evaluated quarterly.
 
 ---
 
