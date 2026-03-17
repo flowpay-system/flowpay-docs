@@ -2,12 +2,18 @@
 
 Índice central de documentação técnica e operacional do FlowPay.
 
+## 🚀 Execução Ativa
+
+O backlog e execução canônicos agora vivem no **[GitHub Project Board](https://github.com/orgs/flowpay-system/projects)**.
+Consulte [PROJECT_CONVENTIONS.md](./PROJECT_CONVENTIONS.md) para as convenções do board, linguagem de milestones e política de documentos históricos.
+
 ## Estratégia e Produto
 
 - [PÚBLICO: API Documentation Index](./public-api/README.md)
 - [MARKETING_STRATEGY.md](./MARKETING_STRATEGY.md)
 - [MANIFESTO.md](./MANIFESTO.md)
-- [ROADMAP.md](./ROADMAP.md)
+- [ROADMAP.md](./ROADMAP.md) ⚠️ _contexto histórico — não é source-of-truth ativa_
+- [PROJECT_CONVENTIONS.md](./PROJECT_CONVENTIONS.md)
 - [SYSTEM_OVERVIEW_2026.md](./SYSTEM_OVERVIEW_2026.md)
 - [FEATURES.md](./FEATURES.md)
 - [SEO.md](./SEO.md)

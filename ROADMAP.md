@@ -1,5 +1,12 @@
 # 🗺️ FLOWPay - Roadmap do Protocolo NΞØ
 
+> ⚠️ **CONTEXTO HISTÓRICO — NÃO É SOURCE-OF-TRUTH ATIVA**
+>
+> Este documento foi a referência de planejamento até Mar/2026.
+> O **backlog e execução ativos** agora vivem no [GitHub Project Board](https://github.com/orgs/flowpay-system/projects) — essa é a superfície canônica de execução.
+> Consulte [`PROJECT_CONVENTIONS.md`](./PROJECT_CONVENTIONS.md) para as convenções do board, definição de milestones e workflow de backlog.
+> Este arquivo é mantido como **registro histórico das fases planejadas**.
+
 ```text
 ========================================
          F L O W P A Y - ROADMAP

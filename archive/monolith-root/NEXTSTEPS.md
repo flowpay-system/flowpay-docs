@@ -1,4 +1,11 @@
 # NEXTSTEPS.md · FLOWPAY
+
+> ⚠️ **ARQUIVO HISTÓRICO — NÃO É SOURCE-OF-TRUTH ATIVA**
+>
+> Este documento fez parte do monólito original e foi arquivado em Mar/2026.
+> Os próximos passos e backlog ativos agora são gerenciados no [GitHub Project Board](https://github.com/orgs/flowpay-system/projects).
+> Consulte [`PROJECT_CONVENTIONS.md`](../../PROJECT_CONVENTIONS.md) para o workflow atual.
+
 > Roadmap técnico priorizado — gerado pós-deploy `feat(auth)` + `fix(checkout)` + `fix(ui)`
 > Baseado em gap analysis real da sessão de arquitetura.
 
