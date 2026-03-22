@@ -53,6 +53,7 @@ Principais entregas:
   - `GET /api/user/metrics`
   - `POST /api/create-charge`
   - `GET /api/charge/:id`
+  - `GET /api/charge/:id/stream`
   - `POST /api/admin/auth/login`
   - `GET /api/admin/auth/session`
   - `POST /api/admin/auth/logout`
@@ -76,8 +77,8 @@ Mudanças funcionais:
 
 ## `flowpay-app`
 Estado atual:
-- Repositório ainda sem implementação de frontend operacional.
-- README define escopo (Vue/PWA) e dependência de `api.flowpay.cash`.
+- Repositório com frontend operacional (Vue 3 PWA) deployado no Railway em `app.flowpay.cash`.
+- Consome `api.flowpay.cash` como base de API.
 
 ## `flowpay-infra`
 Estado atual:
@@ -107,7 +108,8 @@ Importante:
 Breaking changes para consumidores antigos:
 - Chamadas para `https://flowpay.cash/api/...` não são mais o contrato preferencial.
 - Contrato oficial agora é `https://api.flowpay.cash/api/...`.
-- `GET /api/charge/:id/stream` ainda não existe no edge (retorna `501`).
+- `GET /api/charge/:id/stream` já existe no edge como canal SSE
+  para acompanhamento em tempo real.
 
 Mudanças de integração NEO Protocol:
 - No legado, havia notificação explícita de Nexus (`PAYMENT_RECEIVED`) dentro do webhook/polling.
@@ -120,8 +122,10 @@ Mudanças de integração NEO Protocol:
 - Isso mantém a UX viva no login, mas não deve ser tratado como autenticação forte para autorização sensível.
 
 ## Risco médio
-- SSE de status de cobrança (`/api/charge/:id/stream`) ausente no edge.
-- Fluxo de polling funciona via `GET /api/charge/:id`, mas UX de tempo real fica incompleta para telas que dependem de stream.
+- SSE de status de cobrança existe no edge, mas consumidores antigos
+  ainda podem continuar presos ao modelo de polling por drift de docs.
+- Fluxo de fallback via `GET /api/charge/:id` continua válido quando
+  o cliente não puder manter stream aberto.
 
 ## Risco médio
 - Integração Nexus/NEO ainda não reconectada no novo webhook edge.
@@ -146,7 +150,8 @@ Validações executadas em 3 de março de 2026:
 - Padronizar payload para os consumidores do ecossistema.
 
 ## Etapa 3 (48h)
-- Implementar `GET /api/charge/:id/stream` no edge (SSE).
+- Consolidar consumo de `GET /api/charge/:id/stream` nos clientes
+  que precisam de tempo real.
 - Encerrar pontos de fallback do legado em jobs e documentação.
 
 ## 9) Mensagem pronta para broadcast no NEO Protocol
@@ -165,7 +170,8 @@ Resumo da mudança:
 Ações para todos os repositórios dependentes:
 1. Trocar base URL para https://api.flowpay.cash.
 2. Revisar integrações que consumiam eventos Nexus vindos do legado.
-3. Considerar /api/charge/:id/stream como não disponível no edge neste momento.
+3. Preferir /api/charge/:id/stream para UX em tempo real e manter
+   polling apenas como fallback.
 
 Contato de coordenação:
 NEØ MELLØ

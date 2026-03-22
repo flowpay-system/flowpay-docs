@@ -87,7 +87,7 @@ const wooviResponse = await fetch(
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 1. URL:
-   https://flowpay.cash/api/webhook
+   https://api.flowpay.cash/api/webhook
 
 2. Evento:
    Cobrança paga - OPENPIX:CHARGE_COMPLETED
@@ -137,7 +137,7 @@ curl -I -H "Authorization: $WOOVI_API_KEY" \
 
 ```bash
 curl -X POST \
-  https://flowpay.cash/api/create-charge \
+  https://api.flowpay.cash/api/create-charge \
   -H "Content-Type: application/json" \
   -d '{
     "wallet": "0xTESTE",

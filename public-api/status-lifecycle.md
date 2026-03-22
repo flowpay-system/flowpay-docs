@@ -34,3 +34,6 @@ graph TD
 1. **Confiança**: Somente considere o pagamento garantido quando o status mudar para **`COMPLETED`**. 
 2. **Webhooks**: Mudanças de status são notificadas via webhook. Sua aplicação deve ouvir especificamente pelo evento que marca a transição para `COMPLETED`.
 3. **Consulta Ativa**: Em caso de falha no recebimento do webhook, você pode consultar o status via `GET /api/charge/:id` para reconciliação manual.
+4. **Tempo real**: O endpoint `GET /api/charge/:id/stream`
+   já está disponível no edge via Server-Sent Events.
+   Use `GET /api/charge/:id` em polling apenas como fallback.
