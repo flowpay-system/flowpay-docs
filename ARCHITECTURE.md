@@ -1,82 +1,189 @@
-# 🏛️ Topologia e Arquitetura - FlowPay
+<!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
-Este documento descreve a topologia atual da infraestrutura FlowPay, que opera em um modelo **Híbrido (Railway + Cloudflare)**.
+> Fonte canônica de topologia e arquitetura do protocolo.
+> Última atualização: Mar/2026 — Stack em produção.
 
-## 🌐 Visão Geral dos Domínios
+```text
+========================================
+         FLOWPAY · ARCHITECTURE
+========================================
+Status: ACTIVE
+Model: Híbrido (Railway + Cloudflare)
+========================================
+```
 
-| Domínio / Rota | Hospedagem | Repositório | Tecnologias | Função |
-| :--- | :--- | :--- | :--- | :--- |
-| `flowpay.cash` | **Railway** | `flowpay-marketing` | Astro (SSR), Node.js | Front-end Público, Landing page, Institucional, Fluxo básico de Auth UI |
-| `api.flowpay.cash` | **Cloudflare** | `flowpay-api` | Cloudflare Workers, D1 | Back-end API edge principal, Autenticação, Banco de Dados, Webhooks |
-| `app.flowpay.cash` | **Railway** | `flowpay-app` | Vue 3 (PWA, Vite) | Dashboard do usuário, Checkout, Carteira |
+## ⟠ Visão Global
 
----
+Modelo híbrido baseado em execução edge e servidores SSR.
+Dois serviços operam no Railway (SSR Node.js) enquanto um Worker
+processa regras de negócio na borda (Cloudflare).
 
-## 🛠️ Detalhamento da Infraestrutura
+────────────────────────────────────────
 
-### 1. Front-end Institucional (Marketing)
-- **Local:** Railway (`railway.json` vive no repositório `flowpay-marketing`)
+## ⧉ Domínios e Responsabilidades
+
+```text
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┃ MAPA DE SERVIÇOS
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+┃ [flowpay.cash]
+┃ Host/Stack : Railway (Node.js SSR) + Astro 5
+┃ Repo       : flowpay-marketing
+┃ Função     : Landing page, institucional, SEO, CTA de cadastro
+┃
+┃ [api.flowpay.cash]
+┃ Host/Stack : Cloudflare Workers + D1 (SQLite)
+┃ Repo       : flowpay-api
+┃ Função     : API edge, auth, sessão, PIX, webhook, painel, saque
+┃
+┃ [app.flowpay.cash]
+┃ Host/Stack : Railway (Node.js estático) + Vue 3 PWA
+┃ Repo       : flowpay-app
+┃ Função     : Dashboard do vendedor, checkout público, magic-link
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+────────────────────────────────────────
+
+## ⨷ Diagrama de Componentes
+
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│  Browser / PWA                                                      │
+│                                                                     │
+│  flowpay.cash        app.flowpay.cash                               │
+│  (Astro SSR)         (Vue 3 SPA/PWA)                                │
+│       │                    │                                        │
+│       └────────────────────┘                                        │
+│                    │  fetch + credentials: include                  │
+└────────────────────┼────────────────────────────────────────────────┘
+                     │
+          ┌──────────▼──────────┐
+          │  api.flowpay.cash   │   Cloudflare Workers (edge global)
+          │                     │
+          │  • Auth / sessão    │──── cookie flowpay_session
+          │  • Magic-link       │──── Resend API (email)
+          │  • Cobrança PIX     │──── Woovi / OpenPIX API
+          │  • Webhook Woovi    │◄─── POST /api/webhook (HMAC)
+          │  • Payment Buttons  │
+          │  • Saque vendedor   │──── Woovi Transfer API
+          │  • Admin panel      │
+          │  • NEO Nexus events │──── POST nexus.neoprotocol.space
+          └──────────┬──────────┘
+                     │
+          ┌──────────▼──────────┐
+          │  Cloudflare D1      │   SQLite flowpay_api_prod
+          │                     │
+          │  users / sessions   │
+          │  orders / buttons   │
+          │  withdrawals        │
+          │  audit_logs         │
+          └─────────────────────┘
+```
+
+────────────────────────────────────────
+
+## ⍟ Fluxo de Pagamento PIX (Ponta a Ponta)
+
+```text
+Comprador                  App (Vue 3)           API Edge (CF)          Woovi
+    │                          │                      │                    │
+    │── acessa /checkout/:id ──►│                      │                    │
+    │                          │── GET buttons/:id ───►│                    │
+    │                          │◄── dados do link ────│                    │
+    │── preenche CPF + email ──►│                      │                    │
+    │                          │── POST /charge ──────►│                    │
+    │                          │                      │── POST /charge ────►│
+    │                          │                      │◄── QR + copia-cola ─│
+    │◄── QR Code + countdown ──│                      │                    │
+    │── paga PIX ──────────────────────────────────────────────────────────►│
+    │                          │                      │◄── POST /webhook ──│
+    │                          │                      │  (HMAC validado)   │
+    │                          │                      │── UPDATE order     │
+    │                          │                      │   status=APPROVED  │
+    │◄── email confirmação ────────────────────────── │  (Resend)          │
+vendedor◄─ email notificação ──────────────────────── │  (Resend)          │
+```
+
+────────────────────────────────────────
+
+## ◬ Detalhamento por Serviço
+
+### ⟁ 1. flowpay-marketing (Railway)
+
 - **Runtime:** Node.js (Servidor SSR do Astro)
-- **Motivo:** O Astro em modo SSR precisa rodar em um contêiner Node (Railway, neste caso) para garantir SEO perfeito, roteamento dinâmico seguro das landing pages e renderização sob demanda.
-- **CI/CD:** Automático do GitHub para o Railway (ao dar push na branch `main`).
+- **Build:** Execução de `pnpm run build` seguida de `node ./dist...`
+- **CI/CD:** Push na branch `main` ativa deploy automático no Railway
+- **Environment:** Nenhum secret sensível exigido.
+  Configura apenas `PUBLIC_API_BASE_URL` e `PUBLIC_APP_URL` (opcionais).
+- **Rede:** A porta HTTP é injetada automaticamente pelo Railway via `$PORT`.
 
-### 2. Back-end (API Edge & Autenticação)
-- **Local:** Cloudflare Workers (`wrangler.toml` vive no repositório `flowpay-api`)
-- **Database:** Cloudflare D1 (`flowpay_api_prod`)
-- **Motivo:** A API migrou para edge para rodar 100% em Cloudflare Workers (foi extraída do monolito inicial). Isso provê latência global quase zero, enorme segurança e escala automática infinita.
-- **Responsabilidades:**
-  - Emissão de magic-links por email (usando Resend via remetente `team@flowpay.cash`).
-  - Sessões seguras via cookie cross-subdomain (`credentials: include`).
-  - Recepção de Webhook da Woovi e processamentos de Pix.
-  - Endpoints administrativos e criação de cobranças.
-  - Autenticação service-to-service via `X-API-Key` (`FLOWPAY_INTERNAL_API_KEY`).
-  - Emissão de eventos para NEO Nexus (`payment.received`, `user.registration_pending`).
-  - Suporte a rotação de secrets para assinatura outbound.
-  - Endpoints públicos de checkout via Payment Buttons.
+### ⟁ 2. flowpay-api (Cloudflare Workers)
 
-### 3. Front-end Operacional (User Dashboard & PWA)
-- **Local:** Railway (`server.mjs` + `dist/` em `flowpay-app`)
-- **Runtime:** Node.js (build estático Vite com server de healthcheck próprio)
-- **Framework:** Vue 3 com Vue Router (PWA-enabled)
-- **Rotas operacionais:** `/login`, `/auth/verify`, `/dashboard`, `/checkout/:buttonId`
-- **Comunicação:** Consume `https://api.flowpay.cash` com `credentials: include` (cookie cross-subdomain)
-- **Motivo:** Dashboard transacional requer state reativo em tempo real, cache PWA para modo offline, e deploy ágil.
-- **CI/CD:** Automático do GitHub para o Railway (ao dar push na branch `main`).
-- **Status:** Operacional (Mar/2026)
+- **Runtime:** V8 isolates (latência global na faixa de ~5ms)
+- **Database:** Cloudflare D1 através de binding `DB` (`flowpay_api_prod`)
+- **Deploy:** Executado via `pnpm run deploy` (wrangler deploy)
+- **Variáveis Públicas:** Declaradas em `wrangler.jsonc` no bloco `[vars]`
+- **Secrets:** Injetados via wrangler (ver `.env.example` interno)
+- **Migrations:** Diretório `migrations/d1/`.
+  Aplicadas via `wrangler d1 migrations apply`.
 
----
+### ⟁ 3. flowpay-app (Railway)
 
-## 🔗 Integração com NEO Nexus (Event Orchestration)
+- **Runtime:** Node.js fornecendo healthcheck (`server.mjs`) e assets
+- **Build:** `pnpm run build` gerando a pasta `dist/` servida via node
+- **CI/CD:** Push na `main` ativa deploy no Railway
+- **Healthcheck:** Rota dedicada em `GET /health`
+- **Environment:** Variáveis de build `VITE_API_BASE_URL` e `VITE_APP_URL`
+- **Rede:** A porta é injetada automaticamente.
 
-A arquitetura implementa um fluxo de eventos descentralizados:
+────────────────────────────────────────
 
-1. **Payment Received Flow:**
-   - FlowPay (Cloudflare) recebe webhook de confirmação da Woovi
-   - FlowPay valida assinatura HMAC Woovi
-   - FlowPay emite evento para NEO Nexus via `sendNexusWebhook()`
-   - Header: `X-Nexus-Signature` (HMAC-SHA256 com NEXUS_SECRET)
+## ⨂ Integração NEO Nexus (Event Orchestration)
 
-2. **Nexus Processing:**
-   - Nexus valida signature do FlowPay
-   - Nexus dispara reactores registrados (ex: payment-to-mint)
-   - Reactores chamam serviços externos (Smart Factory para mint)
+Após a confirmação e liquidação do pagamento, o Worker emite eventos
+diretamente para o sistema de orquestração global Nexus:
 
-3. **Result Notification:**
-   - Smart Factory retorna via webhook para Nexus
-   - Nexus dispara mint-to-notify reactor
-   - Neobot recebe evento via WebSocket e notifica usuário
+```text
+CF Worker ──POST /webhook──► Nexus (nexus.neoprotocol.space)
+          X-Nexus-Signature: HMAC-SHA256(NEXUS_SECRET_NEW)
 
-**Deployment:** Railway (`nexus.neoprotocol.space`)
-**Security:** HMAC-SHA256 com secret rotation (`NEXUS_SECRET_NEW`/`NEXUS_SECRET_OLD`)
+Nexus ──► reactores (payment.received → liquidação, mint, comms)
+```
 
----
+**Política de Rotação:**
+A assinatura exige `NEXUS_SECRET_NEW` ativo.
+Durante janelas de migração, `NEXUS_SECRET_OLD` permanece aceito provisoriamente.
 
-## 🔄 Fluxo de Comunicação
+────────────────────────────────────────
 
-A aplicação trabalha de forma descentralizada baseada em APIs cliente-servidor:
-1. O usuário acessa de forma pública `flowpay.cash` (Front entregue pelo Railway).
-2. O usuário preenche o email e pede para fazer login.
-3. O front-end dispara chamadas `fetch`/AJAX por debaixo dos panos diretamente para `https://api.flowpay.cash/...` (borda Cloudflare).
-4. O Cloudflare Worker executa a lógica, confere informações do banco relacional D1 e responde ao browser com os Headers e Cookies aplicáveis, firmando a sessão do cliente.
+## ◧ Sessão e Autenticação
 
-*Sempre que houver alteração de rotas ou dados cruciais de sistema transacional, o desenvolvimento deve envolver a estrutura em Cloudflare (`flowpay-api`). Mudanças visuais de páginas e SEO focam no repositório `flowpay-marketing` rodando via Railway.*
+- **Magic-link:** Email com token OTP de uso único dispara fluxo
+  POST para `/api/auth/verify`. Emite cookie HTTP-Only.
+- **Cookie Stateful:** Chamado `flowpay_session`, escopado para `.flowpay.cash`
+  com TTL configurado para 7 dias corridos.
+- **Admin Root:** Login via POST para `/api/admin/login` enviando credencial.
+  Resulta na emissão do cookie `flowpay_admin`.
+- **Serviço-a-Serviço:** Comunicação autenticada pelo cabeçalho HTTP fixo
+  `X-API-Key: FLOWPAY_INTERNAL_API_KEY`.
+
+────────────────────────────────────────
+
+> Mudanças profundas de lógica ou banco pertencem ao `flowpay-api`.
+> Alterações em SEO ou vitrine institucional vão para `flowpay-marketing`.
+> Atualizações de checkout ou painel cabem ao `flowpay-app`.
+
+```text
+▓▓▓ NΞØ MELLØ
+────────────────────────────────────────
+Core Architect · NΞØ Protocol
+neo@neoprotocol.space
+
+"Code is law. Expand until
+chaos becomes protocol."
+
+Security by design.
+Exploits find no refuge here.
+────────────────────────────────────────
+```
