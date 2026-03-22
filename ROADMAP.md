@@ -1,174 +1,283 @@
-# FLOWPay Roadmap 2026
+<!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
-> ⚠️ **CONTEXTO HISTÓRICO — NÃO É SOURCE-OF-TRUTH ATIVA**
->
-> Este documento foi a referência de planejamento até Mar/2026.
-> O **backlog e execução ativos** agora vivem no [FlowPay Unified Roadmap 2026](https://github.com/orgs/flowpay-system/projects/1) — essa é a superfície canônica de execução.
-> Consulte [`PROJECT_CONVENTIONS.md`](./PROJECT_CONVENTIONS.md) para as convenções do board, definição de milestones e workflow de backlog.
-> Este arquivo é mantido como **registro histórico das fases planejadas**.
+> **Status:** active  
+> **Synced:** 2026-03-22  
+> **Source of truth:** GitHub Project `flowpay-system/projects/1`
 
 ```text
 ========================================
-         FLOWPAY · ROADMAP
+        FLOWPAY · ROADMAP 2026
 ========================================
-      PROTOCOLO NΞØ - FASES 2 A 12
-      Atualizado: Mar/2026
+       Canonical surface: Project V2
 ========================================
 ```
 
-> **Nota de classificação (Mar/2026):**
-> - "Implementado" = em produção no runtime principal (`src/worker.ts`)
-> - "Capacidade latente" = código portado em `services/`, mas NÃO plugado no Worker
-> - "Pendente" = não iniciado
->
-> Snapshot synced on: `2026-03-22`
->
-> Rule: if this document diverges from the GitHub Project, the Project wins.
+## ⟠ Objetivo
 
-## Snapshot
+Traduzir o Project operacional para uma leitura estratégica,
+sem inventar uma segunda realidade documental.
 
-- Total tracked items: `22`
-- Done: `12`
-- Todo: `10`
-- Active repositories in the roadmap:
-  - `flowpay-docs`: `1 done`, `3 open`
-  - `flowpay-api`: `4 done`, `3 open`
-  - `flowpay-app`: `4 done`, `0 open`
-  - `flowpay-marketing`: `3 done`, `0 open`
-  - `flowpay-infra`: `0 done`, `4 open`
+Se este arquivo divergir do Project,
+o Project vence.
 
-## Active Queue
+────────────────────────────────────────
 
-| Target | Repo | Issue | Priority | Outcome |
-| --- | --- | --- | --- | --- |
-| 2026-03-21 | `flowpay-docs` | [#2 Sync docs with current edge, app and webhook contract](https://github.com/flowpay-system/flowpay-docs/issues/2) | `P1` | Remove contradictions between code, docs and current runtime contract |
-| 2026-03-24 | `flowpay-infra` | [#1 Create staging and production separation with rollback runbooks](https://github.com/flowpay-system/flowpay-infra/issues/1) | `P1` | Separate environments and establish rollback discipline |
-| 2026-03-31 | `flowpay-infra` | [#2 Establish security ops baseline for secrets, backups and WAF](https://github.com/flowpay-system/flowpay-infra/issues/2) | `P1` | Move security posture from implied to operational |
-| 2026-04-04 | `flowpay-api` | [#4 Expand seller metrics and export endpoints](https://github.com/flowpay-system/flowpay-api/issues/4) | `P2` | Strengthen dashboard intelligence and export surface |
-| 2026-04-11 | `flowpay-api` | [#5 Enforce real CPF/CNPJ and disposable email validation](https://github.com/flowpay-system/flowpay-api/issues/5) | `P2` | Replace syntactic registration with real validation |
-| 2026-04-11 | `flowpay-infra` | [#3 Add observability and alerting for webhook, retry backlog and uptime](https://github.com/flowpay-system/flowpay-infra/issues/3) | `P1` | Make failures visible before users find them |
-| 2026-04-18 | `flowpay-infra` | [#4 Provision QuickNode production setup and provider monitoring](https://github.com/flowpay-system/flowpay-infra/issues/4) | `P2` | Turn crypto provider support into a production-grade surface |
-| 2026-05-01 | `flowpay-api` | [#7 Automate Proof-of-Execution anchoring on Base](https://github.com/flowpay-system/flowpay-api/issues/7) | `P2` | Operationalize Proof-of-Execution cadence |
-| 2026-05-02 | `flowpay-docs` | [#3 Publish open protocol baseline docs](https://github.com/flowpay-system/flowpay-docs/issues/3) | `P2` | Ship `SPEC.md`, `SECURITY.md`, `CONTRIBUTING.md`, `LICENSE` and no-keys/no-data policy |
-| 2026-05-09 | `flowpay-docs` | [#4 Establish RFC flow and coordinated disclosure policy](https://github.com/flowpay-system/flowpay-docs/issues/4) | `P2` | Make governance legible before external contribution scales |
+## ⧉ Snapshot
 
-## Delivered So Far
+```text
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ ITEM                                 ┃ VALOR        ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━━━━━━┫
+┃ Project                              ┃ Unified 2026 ┃
+┃ Total de itens                       ┃ 22           ┃
+┃ Done                                 ┃ 12           ┃
+┃ Todo                                 ┃ 10           ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━━━━━━┛
+```
 
-| Target | Repo | Issue | What landed |
-| --- | --- | --- | --- |
-| 2026-03-19 | `flowpay-docs` | [#1 Bootstrap unified roadmap board and normalize live backlog](https://github.com/flowpay-system/flowpay-docs/issues/1) | The GitHub Project became the canonical execution surface |
-| 2026-03-21 | `flowpay-marketing` | [#1 Remove unsafe-eval and CDN debt from marketing CSP path](https://github.com/flowpay-system/flowpay-marketing/issues/1) | CSP debt reduction, self-host direction and `unsafe-eval` removal moved from intent to delivery |
-| 2026-03-24 | `flowpay-api` | [#1 Add durable D1 retry queue for bridge and provider failures](https://github.com/flowpay-system/flowpay-api/issues/1) | Retry backlog stopped living as theory and became durable state |
-| 2026-03-28 | `flowpay-api` | [#2 Implement full SIWE signature verification in edge worker](https://github.com/flowpay-system/flowpay-api/issues/2) | Wallet auth stopped being theater and gained real cryptographic verification |
-| 2026-03-28 | `flowpay-app` | [#1 Persist checkout state across refresh and route recovery](https://github.com/flowpay-system/flowpay-app/issues/1) | Checkout stopped forgetting itself on refresh |
-| 2026-04-04 | `flowpay-api` | [#3 Add SSE endpoint for realtime charge status](https://github.com/flowpay-system/flowpay-api/issues/3) | Realtime charge streaming became part of the edge contract |
-| 2026-04-10 | `flowpay-marketing` | [#2 Align registration UX with KYC and approval states](https://github.com/flowpay-system/flowpay-marketing/issues/2) | Registration narrative aligned to real approval states |
-| 2026-04-11 | `flowpay-app` | [#2 Integrate realtime charge tracking and robust payment states](https://github.com/flowpay-system/flowpay-app/issues/2) | App consumed realtime status and hardened payment-state UX |
-| 2026-04-11 | `flowpay-app` | [#3 Complete seller dashboard with expanded metrics and export actions](https://github.com/flowpay-system/flowpay-app/issues/3) | Seller dashboard refinement moved ahead of docs |
-| 2026-04-25 | `flowpay-api` | [#6 Activate provider abstraction and QuickNode-backed crypto flow](https://github.com/flowpay-system/flowpay-api/issues/6) | Crypto provider abstraction stopped being latent code and became active contract |
-| 2026-05-15 | `flowpay-app` | [#4 Add provider-agnostic crypto checkout and self-custody UX](https://github.com/flowpay-system/flowpay-app/issues/4) | Self-custody UX entered the product surface |
-| 2026-05-29 | `flowpay-marketing` | [#3 Publish launch assets and public Start Here content](https://github.com/flowpay-system/flowpay-marketing/issues/3) | Launch narrative and public onboarding content shipped |
+```text
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━┓
+┃ REPO                                 ┃ DONE ┃ OPEN ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━╋━━━━━━┫
+┃ flowpay-docs                         ┃ 1    ┃ 3    ┃
+┃ flowpay-api                          ┃ 4    ┃ 3    ┃
+┃ flowpay-app                          ┃ 4    ┃ 0    ┃
+┃ flowpay-marketing                    ┃ 3    ┃ 0    ┃
+┃ flowpay-infra                        ┃ 0    ┃ 4    ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━┻━━━━━━┛
+```
 
-## Strategic Phase Map
+────────────────────────────────────────
 
-The Project is repo-shaped because execution happens in repos. The protocol narrative below exists to keep strategic continuity.
+## ⨷ Fila Ativa
 
-### Phase 2: Blindagem & Hardening
+```text
+▓▓▓ MARÇO
+────────────────────────────────────────
+2026-03-21  flowpay-docs#2   P1
+Sync docs with current edge, app and webhook contract
 
-**Status:** `PARTIAL`
+2026-03-24  flowpay-infra#1  P1
+Create staging and production separation with rollback runbooks
 
-- Done:
-  - Marketing CSP debt removal and `unsafe-eval` cleanup shipped via [flowpay-marketing#1](https://github.com/flowpay-system/flowpay-marketing/issues/1)
-  - SIWE verification shipped via [flowpay-api#2](https://github.com/flowpay-system/flowpay-api/issues/2)
-- Open:
-  - Security ops baseline remains active in [flowpay-infra#2](https://github.com/flowpay-system/flowpay-infra/issues/2)
+2026-03-31  flowpay-infra#2  P1
+Establish security ops baseline for secrets, backups and WAF
 
-### Phase 3: Checkout Modular
+▓▓▓ ABRIL
+────────────────────────────────────────
+2026-04-04  flowpay-api#4    P2
+Expand seller metrics and export endpoints
 
-**Status:** `IMPLEMENTED`
+2026-04-11  flowpay-api#5    P2
+Enforce real CPF/CNPJ and disposable email validation
 
-- Done:
-  - Checkout state recovery via [flowpay-app#1](https://github.com/flowpay-system/flowpay-app/issues/1)
-  - Realtime charge stream via [flowpay-api#3](https://github.com/flowpay-system/flowpay-api/issues/3)
-  - Realtime payment states in app via [flowpay-app#2](https://github.com/flowpay-system/flowpay-app/issues/2)
-  - Provider abstraction and crypto flow via [flowpay-api#6](https://github.com/flowpay-system/flowpay-api/issues/6)
+2026-04-11  flowpay-infra#3  P1
+Add observability and alerting for webhook, retry backlog and uptime
 
-### Phase 4: Transparência Viva
+2026-04-18  flowpay-infra#4  P2
+Provision QuickNode production setup and provider monitoring
 
-**Status:** `PARTIAL`
+▓▓▓ MAIO
+────────────────────────────────────────
+2026-05-01  flowpay-api#7    P2
+Automate Proof-of-Execution anchoring on Base
 
-- Done:
-  - Realtime charge transparency shipped through SSE and app state integration
-- Open:
-  - Contract and operational visibility still depend on [flowpay-docs#2](https://github.com/flowpay-system/flowpay-docs/issues/2) and [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
+2026-05-02  flowpay-docs#3   P2
+Publish open protocol baseline docs
 
-### Phase 5: Auto-Custódia UX
+2026-05-09  flowpay-docs#4   P2
+Establish RFC flow and coordinated disclosure policy
+```
 
-**Status:** `IMPLEMENTED`
+**Navegação operacional:**
+- [flowpay-docs#2](https://github.com/flowpay-system/flowpay-docs/issues/2)
+- [flowpay-infra#1](https://github.com/flowpay-system/flowpay-infra/issues/1)
+- [flowpay-infra#2](https://github.com/flowpay-system/flowpay-infra/issues/2)
+- [flowpay-api#4](https://github.com/flowpay-system/flowpay-api/issues/4)
+- [flowpay-api#5](https://github.com/flowpay-system/flowpay-api/issues/5)
+- [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
+- [flowpay-infra#4](https://github.com/flowpay-system/flowpay-infra/issues/4)
+- [flowpay-api#7](https://github.com/flowpay-system/flowpay-api/issues/7)
+- [flowpay-docs#3](https://github.com/flowpay-system/flowpay-docs/issues/3)
+- [flowpay-docs#4](https://github.com/flowpay-system/flowpay-docs/issues/4)
 
-- Done:
-  - Provider-agnostic crypto checkout and guided self-custody UX shipped via [flowpay-app#4](https://github.com/flowpay-system/flowpay-app/issues/4)
+────────────────────────────────────────
 
-### Phase 6: Spec Pública & Open
+## ◬ Entregas
 
-**Status:** `TODO`
+```text
+2026-03-19  flowpay-docs#1
+Bootstrap unified roadmap board and normalize live backlog
 
-- Open:
+2026-03-21  flowpay-marketing#1
+Remove unsafe-eval and CDN debt from marketing CSP path
+
+2026-03-24  flowpay-api#1
+Add durable D1 retry queue for bridge and provider failures
+
+2026-03-28  flowpay-api#2
+Implement full SIWE signature verification in edge worker
+
+2026-03-28  flowpay-app#1
+Persist checkout state across refresh and route recovery
+
+2026-04-04  flowpay-api#3
+Add SSE endpoint for realtime charge status
+
+2026-04-10  flowpay-marketing#2
+Align registration UX with KYC and approval states
+
+2026-04-11  flowpay-app#2
+Integrate realtime charge tracking and robust payment states
+
+2026-04-11  flowpay-app#3
+Complete seller dashboard with expanded metrics and export actions
+
+2026-04-25  flowpay-api#6
+Activate provider abstraction and QuickNode-backed crypto flow
+
+2026-05-15  flowpay-app#4
+Add provider-agnostic crypto checkout and self-custody UX
+
+2026-05-29  flowpay-marketing#3
+Publish launch assets and public Start Here content
+```
+
+────────────────────────────────────────
+
+## ⧇ Mapa de Fases
+
+### ⍟ Phase 2 · Blindagem & Hardening
+
+> **Status:** partial
+
+- entregue:
+  - `unsafe-eval` e dívida de CSP atacados em
+    [flowpay-marketing#1](https://github.com/flowpay-system/flowpay-marketing/issues/1)
+  - SIWE real entregue em
+    [flowpay-api#2](https://github.com/flowpay-system/flowpay-api/issues/2)
+- em aberto:
+  - baseline operacional de segurança em
+    [flowpay-infra#2](https://github.com/flowpay-system/flowpay-infra/issues/2)
+
+### ⍟ Phase 3 · Checkout Modular
+
+> **Status:** implemented
+
+- entregue:
+  - persistência de checkout em
+    [flowpay-app#1](https://github.com/flowpay-system/flowpay-app/issues/1)
+  - stream SSE em
+    [flowpay-api#3](https://github.com/flowpay-system/flowpay-api/issues/3)
+  - estados robustos no app em
+    [flowpay-app#2](https://github.com/flowpay-system/flowpay-app/issues/2)
+  - abstração de provider e fluxo cripto em
+    [flowpay-api#6](https://github.com/flowpay-system/flowpay-api/issues/6)
+
+### ⍟ Phase 4 · Transparência Viva
+
+> **Status:** partial
+
+- entregue:
+  - transparência de status em tempo real por SSE
+    e integração de estados no app
+- em aberto:
+  - sincronização documental em
+    [flowpay-docs#2](https://github.com/flowpay-system/flowpay-docs/issues/2)
+  - observabilidade operacional em
+    [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
+
+### ⍟ Phase 5 · Auto-Custódia UX
+
+> **Status:** implemented
+
+- entregue:
+  - checkout cripto agnóstico e UX guiada de autocustódia em
+    [flowpay-app#4](https://github.com/flowpay-system/flowpay-app/issues/4)
+
+### ⍟ Phase 6 · Spec Pública & Open
+
+> **Status:** todo
+
+- em aberto:
   - [flowpay-docs#3](https://github.com/flowpay-system/flowpay-docs/issues/3)
 
-### Phase 7: Resiliência
+### ⍟ Phase 7 · Resiliência
 
-**Status:** `PARTIAL`
+> **Status:** partial
 
-- Done:
-  - Durable retry queue via [flowpay-api#1](https://github.com/flowpay-system/flowpay-api/issues/1)
-- Open:
-  - Staging and rollback discipline via [flowpay-infra#1](https://github.com/flowpay-system/flowpay-infra/issues/1)
-  - Observability and alerting via [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
+- entregue:
+  - fila durável de retry em
+    [flowpay-api#1](https://github.com/flowpay-system/flowpay-api/issues/1)
+- em aberto:
+  - separação stage/prod e rollback em
+    [flowpay-infra#1](https://github.com/flowpay-system/flowpay-infra/issues/1)
+  - alertas e telemetria em
+    [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
 
-### Phase 8: Perf & Custos
+### ⍟ Phase 8 · Perf & Custos
 
-**Status:** `PARTIAL`
+> **Status:** partial
 
-- Done:
-  - Core edge runtime remains the production baseline
-- Open:
-  - Metrics and operational cost visibility still depend on [flowpay-api#4](https://github.com/flowpay-system/flowpay-api/issues/4) and [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
+- entregue:
+  - edge runtime permanece como baseline produtiva
+- em aberto:
+  - expansão de métricas em
+    [flowpay-api#4](https://github.com/flowpay-system/flowpay-api/issues/4)
+  - visibilidade operacional em
+    [flowpay-infra#3](https://github.com/flowpay-system/flowpay-infra/issues/3)
 
-### Phase 9: DevEx & SDKs
+### ⍟ Phase 9 · DevEx & SDKs
 
-**Status:** `TODO`
+> **Status:** todo
 
-- No active Project item tracks SDK or CLI delivery yet.
+- nenhum item ativo do Project trata SDK ou CLI ainda
 
-### Phase 10: Lançamento NΞØ
+### ⍟ Phase 10 · Lançamento NΞØ
 
-**Status:** `PARTIAL`
+> **Status:** partial
 
-- Done:
-  - Launch assets and public Start Here content shipped via [flowpay-marketing#3](https://github.com/flowpay-system/flowpay-marketing/issues/3)
-- Open:
-  - Canonical docs still need synchronization before launch narrative and protocol contract fully converge
+- entregue:
+  - assets de lançamento e Start Here público em
+    [flowpay-marketing#3](https://github.com/flowpay-system/flowpay-marketing/issues/3)
+- em aberto:
+  - convergência final entre docs canônicas e narrativa pública
 
-### Phase 11: Governança Mínima
+### ⍟ Phase 11 · Governança Mínima
 
-**Status:** `PARTIAL`
+> **Status:** partial
 
-- Done:
-  - Public roadmap operation exists in the GitHub Project
-- Open:
-  - RFC flow and coordinated disclosure still depend on [flowpay-docs#4](https://github.com/flowpay-system/flowpay-docs/issues/4)
+- entregue:
+  - o roadmap público já opera no GitHub Project
+- em aberto:
+  - RFC flow e disclosure coordenado em
+    [flowpay-docs#4](https://github.com/flowpay-system/flowpay-docs/issues/4)
 
-### Phase 12: Expansões
+### ⍟ Phase 12 · Expansões
 
-**Status:** `PARTIAL`
+> **Status:** partial
 
-- Done:
-  - Crypto provider abstraction and self-custody UX are no longer latent
-- Open:
-  - QuickNode production setup via [flowpay-infra#4](https://github.com/flowpay-system/flowpay-infra/issues/4)
-  - Proof-of-Execution automation via [flowpay-api#7](https://github.com/flowpay-system/flowpay-api/issues/7)
+- entregue:
+  - a camada cripto deixou de ser capacidade latente
+- em aberto:
+  - setup produtivo de QuickNode em
+    [flowpay-infra#4](https://github.com/flowpay-system/flowpay-infra/issues/4)
+  - automação de Proof-of-Execution em
+    [flowpay-api#7](https://github.com/flowpay-system/flowpay-api/issues/7)
 
-## Operating Principle
+────────────────────────────────────────
 
-FlowPay is no longer managed as a single monolithic checklist pretending to be strategy. The Project is the operational graph. This file is the strategic translation layer.
+## ◯ Princípio Operacional
+
+FlowPay não será mais gerido por um checklist monolítico
+descolado da execução.
+
+O Project é o grafo operacional.
+Este arquivo é a camada de tradução estratégica.
+
+```text
+▓▓▓ FLOWPAY SYSTEM
+────────────────────────────────────────
+Roadmap documental ancorado no Project
+────────────────────────────────────────
+```
