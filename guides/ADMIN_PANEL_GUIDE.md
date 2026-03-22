@@ -1,236 +1,198 @@
-# 🧾 FLOWPay - Painel Admin Completo
+<!-- markdownlint-disable MD003 MD007 MD013 MD022 MD023 MD025 MD029 MD032 MD033 MD034 -->
 
-## ✅ **PAINEL ADMIN IMPLEMENTADO COM SUCESSO!**
-
-### 🎯 **O que foi criado:**
-
-#### **📁 Estrutura de Arquivos:**
-
-- ✅ `public/admin/index.html` - Interface principal
-- ✅ `public/admin/admin.css` - Estilos iOS-like
-- ✅ `public/admin/admin.js` - Funcionalidades JavaScript
-- ✅ `railway.json` - Deploy em Railway configurado
-
-#### **🔐 Sistema de Autenticação:**
-
-- ✅ **Login por senha** simples e funcional
-- ✅ **Senha via ambiente:** `ADMIN_PASSWORD`
-- ✅ **Sessão persistente** por 24 horas
-- ✅ **Logout automático** após expiração
-
-## 🚀 **COMO ACESSAR:**
-
-### **URL Local:**
-
-```
-http://localhost:4321/admin
+```text
+========================================
+        FLOWPAY · ADMIN PANEL GUIDE
+========================================
+Status: ACTIVE
+Surface: /admin
+Runtime: flowpay-app + flowpay-api
+========================================
 ```
 
-### **URL Produção:**
+## ⟠ Objetivo
 
+Definir o contrato operacional do painel admin do FlowPay
+no estado atual do ecossistema.
+
+Este guia substitui a leitura legada de painel estático em
+`public/admin/*`.
+
+────────────────────────────────────────
+
+## ⧉ Topologia
+
+```text
+flowpay.cash
+└── marketing institucional
+    └── redireciona /admin para app.flowpay.cash/admin
+
+app.flowpay.cash
+└── aplicação Vue 3 / PWA
+    └── entrega a interface de admin em /admin
+
+api.flowpay.cash
+└── Cloudflare Worker
+    ├── POST /api/admin/auth/login
+    ├── GET  /api/admin/auth/session
+    ├── POST /api/admin/auth/logout
+    ├── GET  /api/admin/users
+    ├── POST /api/admin/users
+    └── GET  /api/admin/metrics
 ```
-https://app.flowpay.cash/admin
+
+Leitura curta:
+- o marketing não hospeda o painel admin
+- a app transacional entrega a interface
+- a API edge sustenta autenticação, métricas e moderação
+
+────────────────────────────────────────
+
+## ⨷ Acesso
+
+```text
+Produção
+└── https://app.flowpay.cash/admin
+
+Marketing
+└── https://flowpay.cash/admin
+    └── redireciona para a app
+
+Local app
+└── http://localhost:5173/admin
 ```
 
-### **Credenciais:**
+Contrato de entrada:
+- acesse `/admin` na app
+- a sessão admin é validada pela API edge
+- sem sessão válida, o fluxo retorna para `/login`
 
-- **Senha:** valor de `ADMIN_PASSWORD` no ambiente
-- **Usuário:** Não necessário (apenas senha)
+────────────────────────────────────────
 
-## 🎨 **CARACTERÍSTICAS DO DESIGN:**
+## ⍟ Autenticação
 
-### **✅ Interface iOS-Like:**
+O painel usa autenticação por senha administrada no worker.
 
-- ✅ **Glassmorphism** com backdrop-filter
-- ✅ **Gradientes FLOWPay** consistentes
-- ✅ **Animações suaves** e profissionais
-- ✅ **Responsividade** para todos os dispositivos
-- ✅ **Dark mode** otimizado
+```text
+Credencial obrigatória
+└── ADMIN_PASSWORD
 
-### **✅ Componentes Visuais:**
+Cookie de sessão
+└── flowpay_admin_session
+```
 
-- ✅ **Cards de estatísticas** com ícones coloridos
-- ✅ **Tabela responsiva** com hover effects
-- ✅ **Badges de status** coloridos
-- ✅ **Filtros** por status e moeda
-- ✅ **Loading states** e notificações
+Fluxo:
+1. o operador envia a senha para
+   `POST /api/admin/auth/login`
+2. a API cria a sessão admin por cookie
+3. a app valida presença da sessão com
+   `GET /api/admin/auth/session`
+4. o logout encerra a sessão em
+   `POST /api/admin/auth/logout`
 
-## 🔧 **FUNCIONALIDADES IMPLEMENTADAS:**
+────────────────────────────────────────
 
-### **1. 📊 Dashboard de Estatísticas:**
+## ◬ Capacidades Atuais
 
-- ✅ **Transações Pendentes** (laranja)
-- ✅ **Transações Pagas** (verde)
-- ✅ **Transações Processadas** (azul)
-- ✅ **Valor Total** (gradiente FLOWPay)
+```text
+▓▓▓ ADMIN CAPABILITIES
+────────────────────────────────────────
+└─ visão de métricas operacionais
+└─ fila de usuários pendentes
+└─ aprovação, rejeição e suspensão de contas
+└─ paginação de usuários
+└─ feedback visual para ações administrativas
+```
 
-### **2. 📋 Gerenciamento de Transações:**
+Estado real da interface:
+- a tela vive em `flowpay-app/src/views/AdminView.vue`
+- a rota protegida vive em `flowpay-app/src/router/index.ts`
+- o backend admin vive em `flowpay-api/src/worker.ts`
 
-- ✅ **Visualização** de todas as transações
-- ✅ **Filtros** por status e moeda
-- ✅ **Busca** e ordenação
-- ✅ **Detalhes** de cada transação
+────────────────────────────────────────
 
-### **3. 📥 Exportação de Dados:**
+## ⧖ Desenvolvimento Local
 
-- ✅ **Download JSON** completo
-- ✅ **Backup automático** com timestamp
-- ✅ **Formato estruturado** para análise
+Pré-requisitos:
+- Node.js 20+
+- `pnpm`
 
-### **4. 🔄 Atualizações Automáticas:**
-
-- ✅ **Auto-refresh** a cada 30 segundos
-- ✅ **Sincronização** em tempo real
-- ✅ **Notificações** de status
-
-## 🎭 **FLUXO DE USUÁRIO:**
-
-### **1. Acesso:**
-
-1. Acesse `/admin`
-2. Digite a senha definida em `ADMIN_PASSWORD`
-3. Clique em "Acessar Painel"
-
-### **2. Dashboard:**
-
-1. **Estatísticas** são carregadas automaticamente
-2. **Transações** são exibidas em tabela
-3. **Filtros** permitem busca específica
-
-### **3. Ações Disponíveis:**
-
-- ✅ **🔄 Atualizar** - Recarrega dados
-- ✅ **📥 Baixar JSON** - Exporta transações
-- ✅ **👁️ Ver Detalhes** - Informações completas
-- ✅ **🚪 Sair** - Logout seguro
-
-## 📱 **RESPONSIVIDADE:**
-
-### **Desktop (1200px+):**
-
-- ✅ Grid de 4 colunas para estatísticas
-- ✅ Tabela completa com todas as colunas
-- ✅ Filtros lado a lado
-
-### **Tablet (768px):**
-
-- ✅ Grid de 2 colunas para estatísticas
-- ✅ Tabela otimizada para touch
-- ✅ Filtros empilhados
-
-### **Mobile (480px):**
-
-- ✅ Grid de 1 coluna para estatísticas
-- ✅ Tabela scrollável horizontal
-- ✅ Botões otimizados para touch
-
-## 🔒 **SEGURANÇA:**
-
-### **✅ Implementado:**
-
-- ✅ **Autenticação** por senha
-- ✅ **Sessão persistente** com expiração
-- ✅ **Logout automático** após inatividade
-- ✅ **Validação** de entrada
-
-### **⚠️ Considerações:**
-
-- **Sessão local** (localStorage)
-- **Sem HTTPS** em desenvolvimento local
-
-### **🔐 Para Produção:**
-
-- ✅ **Alterar senha** padrão
-- ✅ **Implementar HTTPS** obrigatório
-- ✅ **Adicionar rate limiting**
-- ✅ **Logs de acesso**
-
-## 🧪 **TESTANDO O PAINEL:**
-
-### **1. Teste Local:**
+Comandos no `flowpay-app`:
 
 ```bash
-# Iniciar servidor
-make dev
-
-# Acessar admin
-curl http://localhost:4321/admin
+pnpm install
+pnpm dev
+pnpm check
 ```
 
-### **2. Teste de Funcionalidades:**
+Contrato local:
+- `pnpm dev` sobe a app Vue em modo de desenvolvimento
+- a rota de admin fica disponível em `/admin`
+- configure `VITE_API_BASE_URL` para apontar ao edge correto
 
-- ✅ **Login** com senha correta
-- ✅ **Carregamento** de transações
-- ✅ **Filtros** funcionando
-- ✅ **Download** de JSON
-- ✅ **Logout** e sessão
+Se a sessão admin falhar, valide primeiro:
+- `ADMIN_PASSWORD` no worker
+- conectividade com `https://api.flowpay.cash`
+- resposta de `GET /api/admin/auth/session`
 
-### **3. Teste de Responsividade:**
+────────────────────────────────────────
 
-- ✅ **Redimensionar** janela
-- ✅ **DevTools** mobile
-- ✅ **Touch events** em dispositivos
+## ⍟ Produção
 
-## 🚀 **DEPLOY PARA PRODUÇÃO:**
+```text
+App runtime
+└── Railway
 
-### **1. Build e Deploy:**
+API runtime
+└── Cloudflare Workers
+
+Admin base URL
+└── https://app.flowpay.cash/admin
+```
+
+Checklist de produção:
+- `ADMIN_PASSWORD` configurado no worker
+- `app.flowpay.cash` servindo a app correta
+- `api.flowpay.cash` respondendo endpoints admin
+- redirecionamento de `flowpay.cash/admin` preservado
+
+────────────────────────────────────────
+
+## ⨂ Verificação Rápida
 
 ```bash
-# Build local
-make build
-
-# Deploy via pipeline
-git push origin main
+curl -i https://api.flowpay.cash/api/admin/auth/session
+curl -i -X POST https://api.flowpay.cash/api/admin/auth/logout
 ```
 
-### **2. Configurar Variáveis:**
+Validação manual:
+1. abrir `https://app.flowpay.cash/admin`
+2. autenticar com a senha administrativa vigente
+3. confirmar carregamento de métricas e usuários
+4. validar ação de aprovação ou suspensão
 
-```bash
-# No Railway
-railway variables set ADMIN_PASSWORD=<senha_forte_unica>
-railway variables set NODE_ENV=production
+────────────────────────────────────────
+
+## ◲ Anti-Drift
+
+Este documento fica incorreto se voltar a afirmar qualquer um
+dos pontos abaixo:
+
+- que o painel vive em `public/admin/*`
+- que `/admin` é servido diretamente pelo marketing
+- que o fluxo local principal depende de `make`
+- que o painel opera fora da app Vue
+
+```text
+▓▓▓ NΞØ MELLØ
+────────────────────────────────────────
+Core Architect · NΞØ Protocol
+neo@neoprotocol.space
+
+"Code is law. Expand until
+chaos becomes protocol."
+
+Security by design.
+Exploits find no refuge here.
+────────────────────────────────────────
 ```
-
-### **3. Verificar Funcionalidades:**
-
-- ✅ **URL:** `https://app.flowpay.cash/admin`
-- ✅ **Login** funcionando
-- ✅ **Dados** carregando
-- ✅ **Responsividade** perfeita
-
-## 🎯 **PRÓXIMAS MELHORIAS:**
-
-### **🔮 Funcionalidades Futuras:**
-
-- 🔮 **Autenticação** com múltiplos usuários
-- 🔮 **Dashboard** com gráficos
-- 🔮 **Notificações** push
-- 🔮 **Exportação** para CSV/Excel
-- 🔮 **Relatórios** automáticos
-
-### **🔮 Melhorias de UX:**
-
-- 🔮 **Tema claro/escuro** toggle
-- 🔮 **Animações** mais complexas
-- 🔮 **Drag & drop** para reordenação
-- 🔮 **Pesquisa** em tempo real
-
-## 🎉 **RESULTADO FINAL:**
-
-**🧾 PAINEL ADMIN COMPLETO E FUNCIONAL!**
-
-- ✅ **Interface iOS-like** profissional
-- ✅ **Autenticação** por senha implementada
-- ✅ **Dashboard** com estatísticas em tempo real
-- ✅ **Gerenciamento** completo de transações
-- ✅ **Responsividade** para todos os dispositivos
-- ✅ **Exportação** de dados funcional
-- ✅ **Segurança** básica implementada
-
-**FLOWPay agora tem um painel admin completo e profissional! 🚀📱✨**
-
----
-
-**🎯 Acesse agora:** <http://localhost:4321/admin>
-**🔑 Senha:** valor definido em `ADMIN_PASSWORD`
-**📱 Interface iOS-like** completa e funcional!
