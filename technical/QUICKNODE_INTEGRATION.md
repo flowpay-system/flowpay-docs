@@ -165,7 +165,7 @@ console.log(webhooks);
 ### 4. Testar Webhook Handler
 
 ```bash
-curl -X POST https://flowpay.cash/api/webhooks/quicknode \
+curl -X POST https://api.flowpay.cash/api/webhooks/quicknode \
   -H "Content-Type: application/json" \
   -d '{
     "data": [{

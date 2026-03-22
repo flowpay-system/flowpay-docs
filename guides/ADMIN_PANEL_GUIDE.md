@@ -29,7 +29,7 @@ http://localhost:4321/admin
 ### **URL Produção:**
 
 ```
-https://flowpay.cash/admin
+https://app.flowpay.cash/admin
 ```
 
 ### **Credenciais:**
@@ -193,7 +193,7 @@ railway variables set NODE_ENV=production
 
 ### **3. Verificar Funcionalidades:**
 
-- ✅ **URL:** `https://flowpay.cash/admin`
+- ✅ **URL:** `https://app.flowpay.cash/admin`
 - ✅ **Login** funcionando
 - ✅ **Dados** carregando
 - ✅ **Responsividade** perfeita

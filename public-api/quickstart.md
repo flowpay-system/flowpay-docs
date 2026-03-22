@@ -38,7 +38,9 @@ Para testar sua integração sem gastar dinheiro real:
 - Solicite acesso ao ambiente de **Sandbox** (se disponível para seu tier).
 
 ### 3. Timeouts de UI
-O PIX geralmente é instantâneo. Recomendamos um sistema de `Polling` leve ou `WebSockets` no seu frontend para detectar a mudança de status e dar feedback visual imediato ao usuário assim que o webhook for processado pelo seu backend.
+O PIX geralmente é instantâneo. Recomendamos um sistema de `Polling` leve no seu frontend para detectar a mudança de status e dar feedback visual imediato ao usuário assim que o webhook for processado pelo seu backend.
+
+> **Nota sobre tempo real:** O endpoint SSE `GET /api/charge/:id/stream` ainda não está disponível no edge. Utilize `GET /api/charge/:id` em polling até que o suporte a SSE seja introduzido.
 
 ---
 

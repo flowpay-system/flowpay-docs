@@ -76,8 +76,8 @@ Mudanças funcionais:
 
 ## `flowpay-app`
 Estado atual:
-- Repositório ainda sem implementação de frontend operacional.
-- README define escopo (Vue/PWA) e dependência de `api.flowpay.cash`.
+- Repositório com frontend operacional (Vue 3 PWA) deployado no Railway em `app.flowpay.cash`.
+- Consome `api.flowpay.cash` como base de API.
 
 ## `flowpay-infra`
 Estado atual:
