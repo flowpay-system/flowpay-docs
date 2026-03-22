@@ -260,12 +260,15 @@ Não fazer:
 - inventar formato novo em cada documento
 - usar tabela Markdown onde bloco `text` seja mais claro
 
-### Regra Final
+### Regra
 
 Todos os arquivos `.md` devem pertencer ao mesmo sistema editorial.
 
 Na dúvida entre estilo livre ou rigor padronizado,
 escolha a geometria e a consistência técnica.
+
+
+### Assinatura padrão
 
 ```text
 ▓▓▓ NΞØ MELLØ
