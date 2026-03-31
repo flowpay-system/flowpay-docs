@@ -26,6 +26,8 @@ Consulte [PROJECT_CONVENTIONS.md](./PROJECT_CONVENTIONS.md) para as convenções
 
 ## Operação e Guias
 
+- [guides/ADMIN_HELP_CENTER_INTERNAL.md](./guides/ADMIN_HELP_CENTER_INTERNAL.md)
+
 - [guides/ADMIN_PANEL_GUIDE.md](./guides/ADMIN_PANEL_GUIDE.md)
 - [guides/DEPLOY_GUIDE.md](./guides/DEPLOY_GUIDE.md)
 - [guides/LOGIN_SYSTEM_README.md](./guides/LOGIN_SYSTEM_README.md)
