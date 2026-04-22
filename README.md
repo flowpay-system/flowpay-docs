@@ -43,6 +43,7 @@ Consulte [PROJECT_CONVENTIONS.md](./PROJECT_CONVENTIONS.md) para as convenções
 ## Arquitetura e Engenharia
 
 - [technical/FLOWPAY_MIGRATION_DOSSIER_2026-03-03.md](./technical/FLOWPAY_MIGRATION_DOSSIER_2026-03-03.md)
+- [technical/PIX_CRYPTO_EXECUTION_DOSSIER_2026-04-02.md](./technical/PIX_CRYPTO_EXECUTION_DOSSIER_2026-04-02.md)
 - [technical/FLOWPAY_DEPENDENCY_CONTRACT_2026-03-03.md](./technical/FLOWPAY_DEPENDENCY_CONTRACT_2026-03-03.md)
 - [technical/ADR-003-sqlite-persistence.md](./technical/ADR-003-sqlite-persistence.md)
 - [technical/PAYMENT_FLOW.md](./technical/PAYMENT_FLOW.md)
