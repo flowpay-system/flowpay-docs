@@ -80,7 +80,7 @@ Variáveis de ambiente (não secret) no `wrangler.toml`:
 ## Repositórios de frontend
 Ação:
 - Trocar `API_BASE` para `https://api.flowpay.cash`.
-- Tratar `401` em `GET /api/user/status` como fluxo normal sem sessão.
+- Tratar `401` em `GET /api/user/status` como flow normal sem sessão.
 
 ## Repositórios de automação e bots (NEXUS/NEOBOT)
 Ação:

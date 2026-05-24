@@ -99,7 +99,7 @@ Implicação:
 Achados relevantes:
 
 - Crossmint posiciona "regulated infrastructure" com API única para receber, enviar, converter e mover stablecoins.
-- Declara assumir camada de compliance/licenciamento em fluxos regulados.
+- Declara assumir camada de compliance/licenciamento em flows regulados.
 - Diferencia transferências internas de treasury versus payouts regulados para usuários/terceiros.
 
 Implicação:
@@ -333,7 +333,7 @@ https://stripe.com/newsroom/news/stripe-completes-bridge-acquisition
 5. Stripe Sessions 2025 (stablecoin financial accounts):
 https://stripe.com/newsroom/news/sessions-2025
 
-6. Circle CPN overview (prérequisitos OFI/BFI e fluxo):
+6. Circle CPN overview (prérequisitos OFI/BFI e flow):
 https://developers.circle.com/cpn
 
 7. Circle StableFX overview:

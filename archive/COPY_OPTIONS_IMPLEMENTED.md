@@ -111,7 +111,7 @@
 
 - **Tone:** Filosófico, revolucionário
 - **Benefício:** Menos camada, mais conversão
-- **CTA:** "Iniciar fluxo"
+- **CTA:** "Iniciar flow"
 
 ---
 

@@ -69,7 +69,7 @@
 - [ ] Melhorar feedback visual
 - [ ] Adicionar estados de loading
 - [ ] Melhorar mensagens de erro
-- [ ] Otimizar fluxo de UX
+- [ ] Otimizar flow de UX
 
 ### Fase 6: Performance
 

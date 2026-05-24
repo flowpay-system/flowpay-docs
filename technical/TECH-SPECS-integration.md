@@ -8,7 +8,7 @@
 
 ## 1. Visão Geral da Integração
 
-O objetivo é fundir três fluxos técnicos distintos em um único motor financeiro coeso dentro do FlowPay (Astro/Node).
+O objetivo é fundir três flows técnicos distintos em um único motor financeiro coeso dentro do FlowPay (Astro/Node).
 
 ```mermaid
 graph TD

@@ -1,7 +1,7 @@
 # Docs Audit 2026-03-03
 
 ## Escopo
-Auditoria de `docs/` e subpastas para identificar conteúdo desatualizado, inseguro ou não utilizado no fluxo atual.
+Auditoria de `docs/` e subpastas para identificar conteúdo desatualizado, inseguro ou não utilizado no flow atual.
 
 ## Achados Críticos (ação imediata)
 

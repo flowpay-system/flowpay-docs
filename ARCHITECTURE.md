@@ -159,7 +159,7 @@ Durante janelas de migração, `NEXUS_SECRET_OLD` permanece aceito provisoriamen
 
 ## ◧ Sessão e Autenticação
 
-- **Magic-link:** Email com token OTP de uso único dispara fluxo
+- **Magic-link:** Email com token OTP de uso único dispara flow
   POST para `/api/auth/verify`. Emite cookie HTTP-Only.
 - **Cookie Stateful:** Chamado `flowpay_session`, escopado para `.flowpay.cash`
   com TTL configurado para 7 dias corridos.

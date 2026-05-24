@@ -34,7 +34,7 @@ Sistema de autenticação passwordless implementado com magic links e preparado 
 
 1. Usuário clica em "Entrar com carteira"
 2. Sistema conecta carteira via Web3Auth
-3. Implementa fluxo SIWE (Sign-In with Ethereum)
+3. Implementa flow SIWE (Sign-In with Ethereum)
 4. Usuário é autenticado via assinatura criptográfica
 
 ## Como Testar
@@ -87,7 +87,7 @@ NODE_ENV=development
 ### 3. Autenticação SIWE
 
 - [ ] Integrar com Web3Auth
-- [ ] Implementar fluxo SIWE completo
+- [ ] Implementar flow SIWE completo
 - [ ] Validação de assinaturas
 
 ### 4. Segurança

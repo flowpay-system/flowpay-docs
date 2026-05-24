@@ -2,7 +2,7 @@
 
 **NEØ Protocol · Autonomous Notification Layer**
 
-Este documento descreve a arquitetura e o fluxo de disparos de e-mail do FlowPay, garantindo redundância entre a API do Resend e o protocolo SMTP.
+Este documento descreve a arquitetura e o flow de disparos de e-mail do FlowPay, garantindo redundância entre a API do Resend e o protocolo SMTP.
 
 ---
 

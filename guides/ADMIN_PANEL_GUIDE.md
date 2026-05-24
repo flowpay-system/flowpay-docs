@@ -65,7 +65,7 @@ Local app
 Contrato de entrada:
 - acesse `/admin` na app
 - a sessão admin é validada pela API edge
-- sem sessão válida, o fluxo retorna para `/login`
+- sem sessão válida, o flow retorna para `/login`
 
 ────────────────────────────────────────
 
@@ -180,7 +180,7 @@ dos pontos abaixo:
 
 - que o painel vive em `public/admin/*`
 - que `/admin` é servido diretamente pelo marketing
-- que o fluxo local principal depende de `make`
+- que o flow local principal depende de `make`
 - que o painel opera fora da app Vue
 
 ```text

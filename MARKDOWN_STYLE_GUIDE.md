@@ -192,7 +192,7 @@ caracteres Unicode (Block Elements e Box Drawing).
 
 Regras de aplicação:
 - **Títulos/Divisores**: Use linhas (`──────────────++++──────────────`)
-  e texturas (`▓▓▓`) para quebrar fluxo e indicar atenção.
+  e texturas (`▓▓▓`) para quebrar flow e indicar atenção.
 - **Hierarquia**: Use conectivos limpos (`┏`, `┣`, `┗`, `└─`, `├──`).
 - **Lettering (ASCII Type)**: Só para painéis de topo ou letreiros
   do protocolo. Deve ser legível e caber em 80 colunas.
@@ -208,7 +208,7 @@ Quando aplicável, organize o documento nesta ordem:
 2. contexto
 3. contrato ou comportamento esperado
 4. entradas obrigatórias
-5. fluxo de execução
+5. flow de execução
 6. saídas e artefatos
 7. erros e falhas explícitas
 8. exemplos
@@ -245,7 +245,7 @@ Todo `.md` deve ser:
 - sem gordura verbal
 
 O texto deve:
-- priorizar contratos, fluxos, garantias e limites
+- priorizar contratos, flows, garantias e limites
 - declarar obrigatoriedade com precisão
 - transformar ambiguidade em regra
 - tratar documentação como interface operacional

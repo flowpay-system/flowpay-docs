@@ -63,7 +63,7 @@ Ação aplicada:
 
 Sintoma:
 
-- Verificação HMAC só roda quando `secret && signature`; sem assinatura, fluxo segue.
+- Verificação HMAC só roda quando `secret && signature`; sem assinatura, flow segue.
 
 Impacto:
 
@@ -235,5 +235,5 @@ Fase 3 (robustez de autenticação e UX):
 Só avançar para o próximo número quando:
 
 - Código ajustado
-- Teste mínimo do fluxo alterado executado
+- Teste mínimo do flow alterado executado
 - Status deste arquivo atualizado de `PENDENTE` para `CONCLUÍDO`
